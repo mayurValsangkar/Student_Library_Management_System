@@ -1,6 +1,7 @@
 package com.example.Student_Library_Management_System.Models;
 
 import com.example.Student_Library_Management_System.Enums.CardStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -33,8 +34,14 @@ public class Card {
     @JoinColumn   // You are telling  : add a foreign key column ---> define the column name of the parent class.
     private Student student;  // This variable is used in parent class while doing bidirectional mapping
 
+    // @JsonIgnore
     @OneToMany(mappedBy = "card", cascade = CascadeType.ALL)
     private List<Book> bookIssued = new ArrayList<>();
+
+    // Connecting the card class to the transaction
+    // Bidirectional mapping
+    @OneToMany(mappedBy = "card", cascade = CascadeType.ALL)
+    private List<Transactions> listOfTransaction = new ArrayList<>();
 
     private boolean isIssued;
 
@@ -79,5 +86,29 @@ public class Card {
 
     public void setStudent(Student student) {
         this.student = student;
+    }
+
+    public List<Book> getBookIssued() {
+        return bookIssued;
+    }
+
+    public void setBookIssued(List<Book> bookIssued) {
+        this.bookIssued = bookIssued;
+    }
+
+    public List<Transactions> getListOfTransaction() {
+        return listOfTransaction;
+    }
+
+    public void setListOfTransaction(List<Transactions> listOfTransaction) {
+        this.listOfTransaction = listOfTransaction;
+    }
+
+    public boolean isIssued() {
+        return isIssued;
+    }
+
+    public void setIssued(boolean issued) {
+        isIssued = issued;
     }
 }

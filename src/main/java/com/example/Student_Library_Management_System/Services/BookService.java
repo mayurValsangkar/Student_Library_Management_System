@@ -1,5 +1,6 @@
 package com.example.Student_Library_Management_System.Services;
 
+import com.example.Student_Library_Management_System.DTOs.BookRequestDto;
 import com.example.Student_Library_Management_System.Models.Author;
 import com.example.Student_Library_Management_System.Models.Book;
 import com.example.Student_Library_Management_System.Repositories.AuthorRepository;
@@ -19,10 +20,10 @@ public class BookService {
     @Autowired
     AuthorRepository authorRepository;
 
-    public String createBook(Book book) throws Exception{
+    public String createBook(BookRequestDto bookRequestDto) throws Exception{
 
         // I want to get the Author Entity
-        int authorId = book.getAuthor().getId();
+        int authorId = bookRequestDto.getAuthorId();
 
         // Now I will be fetching the author entity
         Author author = authorRepository.findById(authorId).get();
@@ -32,7 +33,17 @@ public class BookService {
             throw new Exception("Author is not present in data base");
         }
 
-        // Basic attribute are already set from postman
+        // we have created this entity so that we can save it into the Db
+        Book book = new Book();
+
+        //  Basic attribute are being set from Dto to Entity layer
+        book.setGenre(bookRequestDto.getGenre());
+        book.setName(bookRequestDto.getName());
+        book.setPages(bookRequestDto.getPages());
+        book.setIssued(false);
+
+
+
         // Setting the foreign key attribute in the child class
         book.setAuthor(author);
 

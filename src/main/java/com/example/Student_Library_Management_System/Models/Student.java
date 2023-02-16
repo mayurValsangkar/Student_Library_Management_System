@@ -1,5 +1,6 @@
 package com.example.Student_Library_Management_System.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -25,6 +26,7 @@ public class Student {
 
     // Syntax for bidirectional mapping
     // Name of variable of the parent entity that you have written in child class foreign key attribute
+    // @JsonIgnore
     @OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
     private Card card;
 
